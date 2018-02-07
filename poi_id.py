@@ -30,6 +30,7 @@ def select_k_best(data_dict, features_list, num_features):
     new_features = []
     for i, j in selected_features:
         new_features.append(i)
+    #print new_features
     return new_features
 
 ### Task 1: Select what features you'll use.
@@ -55,9 +56,9 @@ data_dict.pop("THE TRAVEL AGENCY IN THE PARK", 0)
 ### Task 3: Create new feature(s)
 dataframe = pd.DataFrame.from_dict(data_dict, orient='index')
 dataframe = dataframe.replace('NaN',np.nan)
-dataframe['messages_from_poi_percentage'] = (dataframe.from_poi_to_this_person/
+dataframe['messages_from_poi_ratio'] = (dataframe.from_poi_to_this_person/
          dataframe.to_messages)
-dataframe['messages_to_poi_percentage'] = (dataframe.from_this_person_to_poi/
+dataframe['messages_to_poi_ratio'] = (dataframe.from_this_person_to_poi/
          dataframe.from_messages)
 dataframe = dataframe.replace(np.nan,0)
 dataframe = dataframe.drop('email_address', axis=1)
@@ -71,8 +72,8 @@ my_dataset = dataframe.to_dict('index')
 
 features_list = select_k_best(data_dict, features_list, 12)
 features_list.insert(0, 'poi')
-features_list.insert(len(features_list), 'messages_from_poi_percentage')
-features_list.insert(len(features_list), 'messages_to_poi_percentage')
+features_list.insert(len(features_list), 'messages_from_poi_ratio')
+features_list.insert(len(features_list), 'messages_to_poi_ratio')
 
 ### Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys = True)
@@ -105,7 +106,7 @@ clf = GradientBoostingClassifier()
     
 import itertools
 ### Parameters
-criterion = ['entropy']
+criterion = ['entropy','gini']
 depth = [1,2,3]
 min_split = [2,3,4,5]
 min_leaf = xrange(1,10,2)
@@ -127,7 +128,7 @@ for combination in itertools.product(criterion, depth, min_split, min_leaf):
     test_classifier(clf, my_dataset, features_list)
 """
 clf = AdaBoostClassifier(tree.tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=2, max_depth=1, min_samples_leaf=5, random_state=42), n_estimators=2, learning_rate=2, random_state=42)
-#clf = tree.tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=5, max_depth=3, min_samples_leaf=7, random_state=42)
+#   clf = tree.tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=5, max_depth=3, min_samples_leaf=7, random_state=42)
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
