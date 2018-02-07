@@ -52,7 +52,6 @@ with open("final_project_dataset.pkl", "r") as data_file:
 data_dict.pop("TOTAL", 0)
 data_dict.pop("THE TRAVEL AGENCY IN THE PARK", 0)
 
-
 ### Task 3: Create new feature(s)
 dataframe = pd.DataFrame.from_dict(data_dict, orient='index')
 dataframe = dataframe.replace('NaN',np.nan)
@@ -63,10 +62,6 @@ dataframe['messages_to_poi_ratio'] = (dataframe.from_this_person_to_poi/
 dataframe = dataframe.replace(np.nan,0)
 dataframe = dataframe.drop('email_address', axis=1)
 
-from sklearn.preprocessing import scale
-scaled_df = dataframe.copy()
-scaled_df.iloc[:,1:] = scale(scaled_df.iloc[:,1:])
-my_dataset = scaled_df.to_dict(orient='index')
 ### Store to my_dataset for easy export below.
 my_dataset = dataframe.to_dict('index')
 
