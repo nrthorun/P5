@@ -85,10 +85,10 @@ from sklearn import tree
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
-clf = tree.tree.DecisionTreeClassifier()
+#clf = tree.tree.DecisionTreeClassifier()
 clf = AdaBoostClassifier(tree.tree.DecisionTreeClassifier())
-clf = RandomForestClassifier()
-clf = GradientBoostingClassifier()
+#clf = RandomForestClassifier()
+#clf = GradientBoostingClassifier()
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
@@ -101,24 +101,30 @@ clf = GradientBoostingClassifier()
     
 import itertools
 ### Parameters
-criterion = ['entropy','gini']
+criterion = ['gini','entropy']
 depth = [1,2,3]
 min_split = [2,3,4,5]
 min_leaf = xrange(1,10,2)
 n_estimators = [1,2,3,4,5]
 learning_rate = [1,2,3]
+### for XGBoost
+#n_estimators = [1,10,25]
+#learning_rate = [0.5, 1, 3]
+### for RandomForest
+#n_estimators[10,100,200]
+
 """
 ### Combination for DecisionTree
-for combination in itertools.product(criterion, depth, min_split, min_leaf):
+#for combination in itertools.product(criterion, depth, min_split, min_leaf):
 ### Combination for AdaBoost and GradientBoosting
-#for combination in itertools.product(criterion, depth, min_split, min_leaf, n_estimators, learning_rate):
+for combination in itertools.product(criterion, depth, min_split, min_leaf, n_estimators, learning_rate):
 ### Combination for RandomForest    
 #for combination in itertools.product(criterion, depth, min_split, min_leaf, n_estimators):
     
-    clf = tree.tree.DecisionTreeClassifier(criterion=combination[0], max_depth=combination[1], min_samples_split=combination[2], min_samples_leaf=combination[3], random_state=42)
-    #clf = AdaBoostClassifier(tree.tree.DecisionTreeClassifier(criterion=combination[0], max_depth=combination[1], min_samples_split=combination[2], min_samples_leaf=combination[3], random_state=42), n_estimators=combination[4], learning_rate=combination[5], random_state=42)
+    #clf = tree.tree.DecisionTreeClassifier(criterion=combination[0], max_depth=combination[1], min_samples_split=combination[2], min_samples_leaf=combination[3], random_state=42)
+    clf = AdaBoostClassifier(tree.tree.DecisionTreeClassifier(criterion=combination[0], max_depth=combination[1], min_samples_split=combination[2], min_samples_leaf=combination[3], random_state=42), n_estimators=combination[4], learning_rate=combination[5], random_state=42)
     #clf = GradientBoostingClassifier(max_depth=combination[1], min_samples_split=combination[2], min_samples_leaf=combination[3], n_estimators=combination[4], learning_rate=combination[5], random_state=42)
-    #clf = RandomForestClassifier(criterion=combination[0], max_depth=combination[1], min_samples_split=combination[2], min_samples_leaf=combination[3], n_estimators=combination[4], random_state=42)
+    #clf = RandomForestClassifier(criterion=combination[0], min_samples_split=combination[2], min_samples_leaf=combination[3], n_estimators=combination[4], random_state=42)
     print '*****************************'
     test_classifier(clf, my_dataset, features_list)
 """

@@ -11785,7 +11785,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Em 2001 a Enron Corporation foi à falência. Era uma das líderes mundiais no fornecimento de energia e serviços. Durante anos, diretores da empresa maquiavam os balancetes, enxugavam os prejuízos e inflavam os lucros. Denúncias e rumores promoveram o que seria o maior escândalo financeiro dos Estados Unidos.
 O objetivo deste projeto é analisar características dos funcionários da empresa a fim de conseguir predizer quais deles são Pessoas de Interesse (POI), ou seja, funcionários que participaram da fraude. O uso do aprendizado de máquina é vantajoso neste caso, pois torna o processo de processamento de dados muito mais rápido e eficiente do que um cérebro humano.</p>
-<h4 id="Vis&#227;o-geral-dos-dados">Vis&#227;o geral dos dados<a class="anchor-link" href="#Vis&#227;o-geral-dos-dados">&#182;</a></h4><p>O conjunto de dados consiste em 146 registros com 20 características (<em>features</em>) e 1 rótulo (<em>label</em>) (POI). Algumas características são financeiras, outras dizem respeito ao uso de e-mails. 18 registros são rotulados como POI's, pessoas que estavam comprovadamente envolvidos na fraude.
+<h4 id="Vis&#227;o-geral-dos-dados">Vis&#227;o geral dos dados<a class="anchor-link" href="#Vis&#227;o-geral-dos-dados">&#182;</a></h4><p>O conjunto de dados consiste em 146 registros com 20 características (<em>features</em>) e 1 rótulo (<em>label</em>) (POI). Algumas características são financeiras, outras dizem respeito ao uso de e-mails. 18 registros são rotulados como POI's, pessoas que estavam comprovadamente envolvidas na fraude.
 Durante as investigações iniciais, 2 dos 146 registros não representavam pessoas, por isso foram removidos.</p>
 <ul>
 <li><code>'TOTAL'</code></li>
@@ -11858,7 +11858,7 @@ Através desse algoritmo, foram selecionadas as 12 características iniciais de 
 </tr>
 </tbody>
 </table>
-<p>Através de tentativa e erro, o número de características foi escolhido por apresentar melhores métricas de avaliação.</p>
+<p>Para cada algoritmo testado, um número diferente de características produziu os melhores resultados. A seleção das características para cada algoritmo se deu através de tentativa e erro, considerando os classificadores sem ajustes. O número de características utilizadas é mostrado na próxima seção.</p>
 
 </div>
 </div>
@@ -11867,11 +11867,11 @@ Através desse algoritmo, foram selecionadas as 12 características iniciais de 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Nenhum processo de escalonamenteo foi utilizado, tendo em vista que os algoritmos testados não utilizam a distância euclidiana para calcular a distância entre dois pontos. Em casos como o do algoritmo KNN, por exemplo, se o conjunto de dados não for escalonado, as variáveis que apresentarem maiores valores terão mais influência no classificador. O escalonamento visa criar variáveis não dimensionais, de maneira que a grandeza dessas não enviezem o resultado.</p>
+<p>Nenhum processo de escalonamenteo foi utilizado, tendo em vista que os algoritmos testados não utilizam a distância euclidiana para calcular a distância entre dois pontos. Em casos como os dos algoritmos SVM e kNN, por exemplo, se o conjunto de dados não for escalonado, as variáveis que apresentarem maiores valores terão mais influência no classificador. O escalonamento visa criar variáveis não dimensionais, de maneira que a grandeza dessas não enviezem o resultado.</p>
 <p>Duas novas variáveis foram criadas e utilizadas juntamente com as 12 características originais selecionadas.
 Elas são: <code>'messages_from_poi_ratio'</code> e <code>'messages_to_poi_ratio'</code>. A idéia é saber qual é a proporção em que um determinado funcionário recebe e envia e-mails para algum POI.</p>
-<h4 id="Classificador-Selecionado">Classificador Selecionado<a class="anchor-link" href="#Classificador-Selecionado">&#182;</a></h4><p>O Algoritmo selecionado ao final dos testes foi o AdaBoost utilizando o Decision Trees como estimador básico. Além dele, foram testados o Naive Bayes, SVM, Decision Tree, Random Forest e Gradient Boosting. AdaBoost e Decision Tree foram os que obtiveram maiores valores do F1 score. 
-Os resultados são mostrados abaixo com a segunda casa decimal arredondada.</p>
+<h4 id="Classificador-Selecionado">Classificador Selecionado<a class="anchor-link" href="#Classificador-Selecionado">&#182;</a></h4><p>O Algoritmo selecionado ao final dos testes foi o AdaBoost utilizando o Decision Trees como estimador básico. Além dele, foram testados o Decision Tree, Random Forest e Gradient Boosting. AdaBoost e Decision Trees foram os que obtiveram maiores valores do F1 score. 
+Os melhores resultados de cada algoritmo são mostrados abaixo com a segunda casa decimal arredondada.</p>
 
 </div>
 </div>
@@ -11880,11 +11880,16 @@ Os resultados são mostrados abaixo com a segunda casa decimal arredondada.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Com as Novas Características:</li>
+</ul>
 <table>
 <thead><tr>
 <th style="text-align:left"></th>
 <th style="text-align:center">AdaBoost</th>
 <th style="text-align:center">DecisionTree</th>
+<th style="text-align:center">Gradient Boosting</th>
+<th style="text-align:center">Random Forest</th>
 </tr>
 </thead>
 <tbody>
@@ -11892,21 +11897,92 @@ Os resultados são mostrados abaixo com a segunda casa decimal arredondada.</p>
 <td style="text-align:left">Acurácia</td>
 <td style="text-align:center">0.85</td>
 <td style="text-align:center">0.88</td>
+<td style="text-align:center">0.77</td>
+<td style="text-align:center">0.86</td>
 </tr>
 <tr>
 <td style="text-align:left">Precisão</td>
 <td style="text-align:center">0.45</td>
 <td style="text-align:center">0.57</td>
+<td style="text-align:center">0.35</td>
+<td style="text-align:center">0.58</td>
 </tr>
 <tr>
 <td style="text-align:left">Revocação</td>
 <td style="text-align:center">0.62</td>
 <td style="text-align:center">0.44</td>
+<td style="text-align:center">0.60</td>
+<td style="text-align:center">0.23</td>
 </tr>
 <tr>
 <td style="text-align:left">F1 score</td>
 <td style="text-align:center">0.52</td>
 <td style="text-align:center">0.50</td>
+<td style="text-align:center">0.44</td>
+<td style="text-align:center">0.33</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Sem as Novas Características:</li>
+</ul>
+<table>
+<thead><tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">AdaBoost</th>
+<th style="text-align:center">DecisionTree</th>
+<th style="text-align:center">Gradient Boosting</th>
+<th style="text-align:center">Random Forest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Acurácia</td>
+<td style="text-align:center">0.86</td>
+<td style="text-align:center">0.87</td>
+<td style="text-align:center">0.83</td>
+<td style="text-align:center">0.87</td>
+</tr>
+<tr>
+<td style="text-align:left">Precisão</td>
+<td style="text-align:center">0.48</td>
+<td style="text-align:center">0.54</td>
+<td style="text-align:center">0.46</td>
+<td style="text-align:center">0.65</td>
+</tr>
+<tr>
+<td style="text-align:left">Revocação</td>
+<td style="text-align:center">0.30</td>
+<td style="text-align:center">0.38</td>
+<td style="text-align:center">0.47</td>
+<td style="text-align:center">0.38</td>
+</tr>
+<tr>
+<td style="text-align:left">F1 score</td>
+<td style="text-align:center">0.37</td>
+<td style="text-align:center">0.44</td>
+<td style="text-align:center">0.47</td>
+<td style="text-align:center">0.48</td>
+</tr>
+</tbody>
+</table>
+<p>O número de características utilizado para obter esses resultados é mostrado na tabela abaixo:</p>
+<table>
+<thead><tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">AdaBoost</th>
+<th style="text-align:center">DecisionTree</th>
+<th style="text-align:center">Gradient Boosting</th>
+<th style="text-align:center">Random Forest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Nº de Características</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
 </tr>
 </tbody>
 </table>
@@ -11918,13 +11994,34 @@ Os resultados são mostrados abaixo com a segunda casa decimal arredondada.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Os demais algoritmos não passaram de 0.40 no F1 score.</p>
 <h4 id="Ajustes">Ajustes<a class="anchor-link" href="#Ajustes">&#182;</a></h4><p>Os ajustes finos no algoritmo desempenham a função de otimizar a performance do classificador. Os classificadores, sem parâmetros definidos, tendem a ser generalistas e, para ajustá-los a um problema específico, se fazem necessários ajustes. Caso esse processo seja mal feito, o classificador está sujeito a uma performance ruim no conjunto de treino (<em>underfitting</em>) ou a ficar específico demais (<em>overfitting</em>).
 No início do projeto o GridSearchCV foi utilizado para obter os parâmetros ótimos do classificador. Porém, ele retorna os parâmetros que obtiveram maior acurácia durante a validação cruzada e, neste caso, seria interessante saber se existe uma combinação de parâmetros que possui a acurácia um pouco menor e uma taxa de revocação bastante maior, por exemplo.
 Por isso, a função <code>product</code> do módulo <code>itertools</code> foi utilizada de maneira a gerar todas as combinações possíveis entre os parâmetros. Para cada combinação, a função <code>test_classifier</code> do <code>tester.py</code> é chamada e imprime os resultados no console.
-Os parâmetros ajustados foram <code>n_estimators</code> (do 1 ao 5), <code>learning_rate</code> (do 1 ao 3), <code>max_depth</code> (do 1 ao 3), <code>min_samples_split</code> (do 2 ao 5) e <code>min_samples_leaf</code> (do 1 ao 10, de 2 em 2). Os dois primeiros são parâmetros do AdaBoost e o restante pertence ao Decision Tree, que é seu estimador básico.</p>
-<h4 id="Valida&#231;&#227;o">Valida&#231;&#227;o<a class="anchor-link" href="#Valida&#231;&#227;o">&#182;</a></h4><p>Validação é o processo de testar o algoritmo de aprendizado de máquina em dados que não foram utilizados durante a etapa de treinamento. Pode-se dividir um conjunto de dados em dois, usar uma parte para treinar o algoritmo e outra parte para validar o quão bom foram os resultados previstos pelo algoritmo comparando-os com os valores reais deste sub-conjunto. Uma maneira clássicade errar durante este processo é utilizar o conjunto inteiro de dados para o treinamento e depois testar o algoritmo em parte desse conjunto. O classificador provavelmente será sobreajustado e proporcionará resultados ruins em dados novos.
-A validação utilizada nesse projeto foi a da função <code>test_classifier</code> do <code>tester.py</code>. Nessa função é utilizado o StratifiedShuffleSplit que recebe o conjunto de dados e o divide em conjuntos de treinamento e teste por mil vezes, na proporção de 90% para 10%. Os resultados obtidos ao final são as médias dos resultados em cada divisão.</p>
+Os parâmetros ajustados para cada algoritmo seguem abaixo:</p>
+<h6 id="Adaboost">Adaboost<a class="anchor-link" href="#Adaboost">&#182;</a></h6><ul>
+<li><code>n_estimators</code> - do 1 ao 5</li>
+<li><code>learning_rate</code> - do 1 ao 3 </li>
+<li><code>criterion</code> - 'gini' e 'entropy'</li>
+<li><code>max_depth</code> - do 1 ao 3</li>
+<li><code>min_samples_split</code> - do 2 ao 5 </li>
+<li><code>min_samples_leaf</code> - do 1 ao 10, de 2 em 2 </li>
+</ul>
+<p>Sendo que os dois primeiros são parâmetros do AdaBoost e o restante pertence ao Decision Trees, que é seu estimador básico.</p>
+<h6 id="Decision-Trees">Decision Trees<a class="anchor-link" href="#Decision-Trees">&#182;</a></h6><ul>
+<li><code>criterion</code> - 'gini' e 'entropy'</li>
+<li><code>max_depth</code> - do 1 ao 3</li>
+<li><code>min_samples_split</code> - do 2 ao 5 </li>
+<li><code>min_samples_leaf</code> - do 1 ao 10, de 2 em 2 </li>
+</ul>
+<h6 id="Gradient-Boosting">Gradient Boosting<a class="anchor-link" href="#Gradient-Boosting">&#182;</a></h6><ul>
+<li><code>n_estimators</code> - 1, 10 e 25</li>
+<li><code>learning_rate</code> - 0.5, 1 e 3 </li>
+</ul>
+<h6 id="Gradient-Boosting">Gradient Boosting<a class="anchor-link" href="#Gradient-Boosting">&#182;</a></h6><ul>
+<li><code>n_estimators</code> - 10, 100 e 200</li>
+</ul>
+<h4 id="Valida&#231;&#227;o">Valida&#231;&#227;o<a class="anchor-link" href="#Valida&#231;&#227;o">&#182;</a></h4><p>Validação é o processo de testar o algoritmo de aprendizado de máquina em dados que não foram utilizados durante a etapa de treinamento. Pode-se dividir um conjunto de dados em dois, usar uma parte para treinar o algoritmo e outra parte para validar o quão bons foram os resultados previstos pelo algoritmo comparando-os com os valores reais deste sub-conjunto. Uma maneira clássica de errar durante este processo é utilizar o conjunto inteiro de dados para o treinamento e depois testar o algoritmo em parte desse conjunto. O classificador provavelmente será sobreajustado e proporcionará resultados ruins em dados novos.
+A validação utilizada nesse projeto foi a da função <code>test_classifier</code> do <code>tester.py</code>. Nessa função é utilizado o StratifiedShuffleSplit que recebe o conjunto de dados e o divide em conjuntos de treinamento e teste por mil vezes, na proporção de 90% para 10%. Os resultados obtidos ao final são as médias dos resultados em cada divisão. O StratifiedShuffleSplit garante que todas as divisões tenham a mesma proporção entre as classes, o que é bastante interessante neste projeto, tendo em vista que o conjunto de dados é pequeno.</p>
 <h4 id="M&#233;tricas-de-avalia&#231;&#227;o">M&#233;tricas de avalia&#231;&#227;o<a class="anchor-link" href="#M&#233;tricas-de-avalia&#231;&#227;o">&#182;</a></h4><p>Para o classificador final foram utilizadas quatro métricas de avaliação:</p>
 <table>
 <thead><tr>
