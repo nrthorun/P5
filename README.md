@@ -1,15 +1,14 @@
-
-Projeto 5 - Identificar fraude no Email da Enron 
+Project 5 - Identifying Enron Email Fraud
 ====================
-##### Por Nikolas Thorun
+##### Author: Nikolas Thorun
 
-Em 2001 a Enron Corporation foi à falência. Era uma das líderes mundiais no fornecimento de energia e serviços. Durante anos, diretores da empresa maquiavam os balancetes, enxugavam os prejuízos e inflavam os lucros. Denúncias e rumores promoveram o que seria o maior escândalo financeiro dos Estados Unidos.
-O objetivo deste projeto é analisar características dos funcionários da empresa a fim de conseguir predizer quais deles são Pessoas de Interesse (POI), ou seja, funcionários que participaram da fraude. O uso do aprendizado de máquina é vantajoso neste caso, pois torna o processo de processamento de dados muito mais rápido e eficiente do que um cérebro humano.
+In 2001 Enron Corporation went bankrupt. It was one of the world leaders in the supply of energy and services. For years, company directors made up balance sheets, wiped out losses and inflated profits. Indictments and rumors promoted what would be the biggest financial scandal in the United States.
+The objective of this project is to analyze the characteristics of the company's employees in order to be able to predict which of them are People of Interest (POI), that is, employees who participated in the fraud. The use of machine learning is advantageous in this case, as it makes the data processing process much faster and more efficient than the human brain.
 
-#### Visão geral dos dados
+#### Data overview
 
-O conjunto de dados consiste em 146 registros com 20 características (_features_) e 1 rótulo (_label_) (POI). Algumas características são financeiras, outras dizem respeito ao uso de e-mails. 18 registros são rotulados como POI's, pessoas que estavam comprovadamente envolvidas na fraude.
-Durante as investigações iniciais, 2 dos 146 registros não representavam pessoas, por isso foram removidos.
+The data set consists of 146 records with 20 features and 1 label (POI). Some features are financial, others relate to the use of e-mails. 18 records are labeled as POI's, people who were demonstrably involved in the fraud.
+During the initial investigations, 2 of the 146 records did not represent people, so they were removed.
 
 
 * `'TOTAL'`
@@ -19,10 +18,10 @@ Durante as investigações iniciais, 2 dos 146 registros não representavam pess
 
 
 
-#### Seleção de Características
+#### Feature Selection
 
-Como padrão, o SelectKBest calcula os valores-F da ANOVA (Análise de Variância), ou seja, podemos usá-lo para selecionar as características de maior variância. 
-Através desse algoritmo, foram selecionadas as 12 características iniciais de maior variância. As características e os valores-F são mostrados na tabela abaixo.
+As a default, SelectKBest calculates the F-values of ANOVA (Analysis of Variance), that is, we can use it to select the characteristics of greatest variance.
+Through this algorithm, the 12 initial characteristics with the highest variance were selected. The characteristics and F-values are shown in the table below.
         
 |Features | Weight | 
 |:-------|:------:|
@@ -39,102 +38,102 @@ Através desse algoritmo, foram selecionadas as 12 características iniciais de 
 |  expenses | 6.09  |
 |  from_poi_to_this_person | 5.24  |
 
-Para cada algoritmo testado, um número diferente de características produziu os melhores resultados. A seleção das características para cada algoritmo se deu através de tentativa e erro, considerando os classificadores sem ajustes. O número de características utilizadas é mostrado na próxima seção.
+For each tested algorithm, a different number of characteristics produced the best results. The selection of characteristics for each algorithm took place through trial and error, considering the classifiers without adjustments. The number of characteristics used is shown in the next section.
 
-Nenhum processo de escalonamenteo foi utilizado, tendo em vista que os algoritmos testados não utilizam a distância euclidiana para calcular a distância entre dois pontos. Em casos como os dos algoritmos SVM e kNN, por exemplo, se o conjunto de dados não for escalonado, as variáveis que apresentarem maiores valores terão mais influência no classificador. O escalonamento visa criar variáveis não dimensionais, de maneira que a grandeza dessas não enviezem o resultado. 
+No scaling process was used, since the tested algorithms do not use the Euclidean distance to calculate the distance between two points. In cases such as those of the SVM and kNN algorithms, for example, if the data set is not scaled, the variables with the highest values will have more influence on the classifier. Scaling aims to create non-dimensional variables, so that their greatness does not bias the result.
 
-Duas novas variáveis foram criadas e utilizadas juntamente com as 12 características originais selecionadas.
-Elas são: `'messages_from_poi_ratio'` e `'messages_to_poi_ratio'`. A idéia é saber qual é a proporção em que um determinado funcionário recebe e envia e-mails para algum POI. 
-
-
-#### Classificador Selecionado
-O Algoritmo selecionado ao final dos testes foi o AdaBoost utilizando o Decision Trees como estimador básico. Além dele, foram testados o Decision Tree, Random Forest e Gradient Boosting. AdaBoost e Decision Trees foram os que obtiveram maiores valores do F1 score. 
-Os melhores resultados de cada algoritmo são mostrados abaixo com a segunda casa decimal arredondada. 
+Two new variables were created and used together with the 12 original characteristics selected.
+They are: `'messages_from_poi_ratio'` and `' messages_to_poi_ratio'`. The idea is to know the proportion in which a given employee receives and sends e-mails to some POI.
 
 
-* Com as Novas Características:
+#### Selected Classifier
+The Algorithm selected at the end of the tests was AdaBoost using Decision Trees as the basic estimator. In addition to it, Decision Tree, Random Forest and Gradient Boosting were tested. AdaBoost and Decision Trees had the highest values of the F1 score.
+The best results for each algorithm are shown below rounded to the second decimal place.
+
+
+* With the new features:
 
 | | AdaBoost | DecisionTree | Gradient Boosting | Random Forest |
 |:-------|:------:|:------:|:------:|:------:|
-|  Acurácia | 0.85  | 0.88 | 0.77 | 0.86 |
-|  Precisão | 0.45  | 0.57 | 0.35 | 0.58 |
-|  Revocação | 0.62  | 0.44 | 0.60 | 0.23 |
+|  Accuracy | 0.85  | 0.88 | 0.77 | 0.86 |
+|  Precision | 0.45  | 0.57 | 0.35 | 0.58 |
+|  Recall | 0.62  | 0.44 | 0.60 | 0.23 |
 |  F1 score | 0.52  | 0.50 | 0.44 | 0.33 |
 
-* Sem as Novas Características:
+* Without the new features:
 
 | | AdaBoost | DecisionTree | Gradient Boosting | Random Forest |
 |:-------|:------:|:------:|:------:|:------:|
-|  Acurácia | 0.86  | 0.87 | 0.83 | 0.87 |
-|  Precisão | 0.48  | 0.54 | 0.46 | 0.65 |
-|  Revocação | 0.30  | 0.38 | 0.47 | 0.38 |
+|  Accuracy | 0.86  | 0.87 | 0.83 | 0.87 |
+|  Precision | 0.48  | 0.54 | 0.46 | 0.65 |
+|  Recall | 0.30  | 0.38 | 0.47 | 0.38 |
 |  F1 score | 0.37  | 0.44 | 0.47 | 0.48 |
 
 
-O número de características utilizado para obter esses resultados é mostrado na tabela abaixo:
+The number of characteristics used to obtain these results is shown in the table below:
 
 | | AdaBoost | DecisionTree | Gradient Boosting | Random Forest |
 |:-------|:------:|:------:|:------:|:------:|
-|  Nº de Características | 12  | 11 | 3 | 3 |
+|  Nº of features | 12  | 11 | 3 | 3 |
 
 
-#### Ajustes
+#### Settings
 
-Os ajustes finos no algoritmo desempenham a função de otimizar a performance do classificador. Os classificadores, sem parâmetros definidos, tendem a ser generalistas e, para ajustá-los a um problema específico, se fazem necessários ajustes. Caso esse processo seja mal feito, o classificador está sujeito a uma performance ruim no conjunto de treino (_underfitting_) ou a ficar específico demais (_overfitting_).
-No início do projeto o GridSearchCV foi utilizado para obter os parâmetros ótimos do classificador. Porém, ele retorna os parâmetros que obtiveram maior acurácia durante a validação cruzada e, neste caso, seria interessante saber se existe uma combinação de parâmetros que possui a acurácia um pouco menor e uma taxa de revocação bastante maior, por exemplo.
-Por isso, a função `product` do módulo `itertools` foi utilizada de maneira a gerar todas as combinações possíveis entre os parâmetros. Para cada combinação, a função `test_classifier` do `tester.py` é chamada e imprime os resultados no console.
-Os parâmetros ajustados para cada algoritmo seguem abaixo:
+Fine adjustments in the algorithm perform the function of optimizing the classifier's performance. Classifiers, without defined parameters, tend to be generalists and in order to adjust them to a specific problem, adjustments are necessary. If this process is done poorly, the classifier is subject to a poor performance in the training set (_underfitting_) or to become too specific (_overfitting_).
+At the beginning of the project, GridSearchCV was used to obtain the optimum parameters of the classifier. However, it returns the parameters that obtained the highest accuracy during cross-validation and, in this case, it would be interesting to know if there is a combination of parameters that has a slightly lower accuracy and a much higher recall rate, for example.
+Therefore, the `product` function of the` itertools` module was used in order to generate all possible combinations between the parameters. For each combination, the `test_classifier` function of `tester.py` is called and prints the results on the console.
+The parameters adjusted for each algorithm are shown below:
 
 ###### Adaboost
-* `n_estimators` - do 1 ao 5
-* `learning_rate` - do 1 ao 3 
-* `criterion` - 'gini' e 'entropy'
-* `max_depth` - do 1 ao 3
-* `min_samples_split` - do 2 ao 5 
-* `min_samples_leaf` - do 1 ao 10, de 2 em 2 
+* `n_estimators` - from 1 to 5
+* `learning_rate` - from 1 to 3 
+* `criterion` - 'gini' and 'entropy'
+* `max_depth` - from 1 to 3
+* `min_samples_split` - from 2 to 5 
+* `min_samples_leaf` - from 1 to 10, stepped 2 by 2 
 
-Sendo que os dois primeiros são parâmetros do AdaBoost e o restante pertence ao Decision Trees, que é seu estimador básico.
+The first two are parameters of AdaBoost and the rest belong to Decision Trees, which is its basic estimator.
 
 ###### Decision Trees
-* `criterion` - 'gini' e 'entropy'
-* `max_depth` - do 1 ao 3
-* `min_samples_split` - do 2 ao 5 
-* `min_samples_leaf` - do 1 ao 10, de 2 em 2 
+* `criterion` - 'gini' and 'entropy'
+* `max_depth` - from 1 to 3
+* `min_samples_split` - from 2 to 5 
+* `min_samples_leaf` - from 1 to 10, stepped 2 by 2 
 
 ###### Gradient Boosting
-* `n_estimators` - 1, 10 e 25
-* `learning_rate` - 0.5, 1 e 3 
+* `n_estimators` - 1, 10 and 25
+* `learning_rate` - 0.5, 1 and 3 
 
 ###### Gradient Boosting
-* `n_estimators` - 10, 100 e 200
+* `n_estimators` - 10, 100 and 200
 
-#### Validação
+#### Validation
 
-Validação é o processo de testar o algoritmo de aprendizado de máquina em dados que não foram utilizados durante a etapa de treinamento. Pode-se dividir um conjunto de dados em dois, usar uma parte para treinar o algoritmo e outra parte para validar o quão bons foram os resultados previstos pelo algoritmo comparando-os com os valores reais deste sub-conjunto. Uma maneira clássica de errar durante este processo é utilizar o conjunto inteiro de dados para o treinamento e depois testar o algoritmo em parte desse conjunto. O classificador provavelmente será sobreajustado e proporcionará resultados ruins em dados novos.
-A validação utilizada nesse projeto foi a da função `test_classifier` do `tester.py`. Nessa função é utilizado o StratifiedShuffleSplit que recebe o conjunto de dados e o divide em conjuntos de treinamento e teste por mil vezes, na proporção de 90% para 10%. Os resultados obtidos ao final são as médias dos resultados em cada divisão. O StratifiedShuffleSplit garante que todas as divisões tenham a mesma proporção entre as classes, o que é bastante interessante neste projeto, tendo em vista que o conjunto de dados é pequeno.
+Validation is the process of testing the machine learning algorithm on data that was not used during the training stage. You can divide a data set in two, use one part to train the algorithm and another part to validate how good the results were predicted by the algorithm by comparing them with the real values of this subset. A classic way to make mistakes during this process is to use the entire data set for training and then test the algorithm on part of that set. The classifier is likely to be overfitted and will probably give poor results on new data.
+The validation used in this project was that of the `test_classifier` function of `tester.py`. In this function, StratifiedShuffleSplit is used, which receives the data set and divides it into training and test sets a thousand times, in the proportion of 90% to 10%. The results obtained at the end are the averages of the results in each division. StratifiedShuffleSplit ensures that all divisions have the same proportion between classes, which is quite interesting in this project, given that the data set is small.
 
-#### Métricas de avaliação
-Para o classificador final foram utilizadas quatro métricas de avaliação:
+#### Evaluation metrics
+For the final classifier, four evaluation metrics were used:
 
 | | AdaBoost | 
 |:-------|:------:|
-|  Acurácia | 0.85  | 
-|  Precisão | 0.45  | 
-|  Revocação | 0.62  | 
+|  Accuracy | 0.85  | 
+|  Precision | 0.45  | 
+|  Recall | 0.62  | 
 |  F1 score | 0.52  | 
 
-* Acurácia
+* Accuracy
 
-Pode-se dizer que aproximadamente 85% das observações foram classificadas corretamente entre POI e não-POI. Porém, sabendo que apenas 18 dos 144 (12,5%) empregados são POI's, se o modelo classificasse todos funcionários como não-POI o classificador teria 87,5% de acurácia. Ou seja, acurácia é uma métrica importante mas não seria inteligente usá-la apenas.
-* Precisão
+It can be said that approximately 85% of the observations were correctly classified between POI and non-POI. However, knowing that only 18 of the 144 (12.5%) employees are POI's, if the model classified all employees as non-POI the classifier would be 87.5% accurate. That is, accuracy is an important metric, but it would not be wise to use it alone.
+* Precision
 
-Pode-se dizer que aproximadamente 45% das observações classificadas como POI's eram realmente POI's. Ou seja, 55% das observações classificadas como POI's são falsos positivos. Quanto maior a precisão, menos funcionários serão falsamente acusados de serem POI's.
-* Revocação (_Recall_)
+It can be said that approximately 45% of the observations classified as POI's were actually POI's. That is, 55% of the observations classified as POI's are false positives. The greater the accuracy, the fewer employees will be falsely accused of being POI's.
+* Recall
 
-Pode-se dizer que aproximadamente 62% das observações que realmente são POI's foram corretamente identificados. Ou seja, 38% dos POI's são falsos negativos. Quanto maior for a revocação, menor é a probabilidade de algum POI escapar de sua identificação.
+It can be said that approximately 62% of the observations that really are POI's were correctly identified. That is, 38% of POI's are false negatives. The greater the recall, the less likely a POI will escape its identification.
 * F1 score
 
-O F1 score é a combinação da precisão e da revocação de maneira que com apenas um número, sabemos o quão bem o classificador trabalha. Quanto maior for o F1 score, melhor.
-Por isso o AdaBoost foi escolhido, pois apesar de apresentar acurácia menor que o Decision Tree, o F1 score foi ligeiramente superior. Além disso, a revocação do AdaBoost foi bastante superior, diminuindo a possibilidade de um POI se safar.
-Nesse projeto, buscar maiores valores de revocação em detrimento de menores valores de precisão é compreensível, uma vez que identificar erroneamente um POI não é tão ruim quanto deixar de identificar um POI.
+The F1 score is the combination of precision and recall so that with just one number, we know how well the classifier works. The higher the F1 score, the better.
+That is why AdaBoost was chosen, because despite presenting less accuracy than Decision Tree, the F1 score was slightly higher. In addition, the recall of AdaBoost was far superior, reducing the possibility of a POI getting away with it.
+In this project, seeking higher recall values at the expense of lower precision values is understandable, since mistakenly identifying a POI is not as bad as failing to identify a POI.
 
