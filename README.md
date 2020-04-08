@@ -1,4 +1,4 @@
-Project 5 - Identifying Enron Email Fraud
+Project 5 - Identifying The Enron Email Fraud
 ====================
 ##### Author: Nikolas Thorun
 
